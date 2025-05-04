@@ -1,0 +1,219 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Example: Adding a New Feature
+
+This example demonstrates adding a "Task Timer" feature to track time spent on tasks.
+
+## 1. Create DocType
+
+First, create the DocType for storing task time entries:
+
+```bash
+bench make-doctype "Task Timer"
+```
+
+Define fields in JSON:
+```json
+{
+  "fields": [
+    {
+      "fieldname": "task",
+      "fieldtype": "Link",
+      "label": "Task",
+      "options": "Task",
+      "reqd": 1
+    },
+    {
+      "fieldname": "start_time",
+      "fieldtype": "Datetime",
+      "label": "Start Time",
+      "reqd": 1
+    },
+    {
+      "fieldname": "end_time",
+      "fieldtype": "Datetime",
+      "label": "End Time"
+    },
+    {
+      "fieldname": "duration",
+      "fieldtype": "Duration",
+      "label": "Duration",
+      "read_only": 1
+    }
+  ]
+}
+```
+
+## 2. Create Frontend Components
+
+### Add Icon (TaskTimerIcon.vue)
+```vue
+<!-- frontend/src/components/Icons/TaskTimerIcon.vue -->
+<template>
+  <svg width="16" height="16" viewBox="0 0 16 16">
+    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm0 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2zm1 2v4.5l2.7 2.7-1.4 1.4L7 9.3V4h2z"/>
+  </svg>
+</template>
+```
+
+### Add Page Component
+```vue
+<!-- frontend/src/pages/TaskTimerPage.vue -->
+<template>
+  <div class="task-timer">
+    <h1>Task Timer</h1>
+    <div class="timer-controls">
+      <Button @click="startTimer" :disabled="isRunning">Start</Button>
+      <Button @click="stopTimer" :disabled="!isRunning">Stop</Button>
+    </div>
+    <div class="timer-list">
+      <!-- Timer entries list -->
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { useTaskTimer } from '@/composables/useTaskTimer'
+
+const { startTimer, stopTimer, isRunning } = useTaskTimer()
+</script>
+```
+
+## 3. Add Route
+
+Add to router.js:
+```js
+{
+  path: '/task-timer',
+  name: 'TaskTimer',
+  component: () => import('@/pages/TaskTimerPage.vue')
+}
+```
+
+## 4. Add to Sidebar
+
+In AppSidebar.vue:
+```vue
+<SidebarLink
+  :label="__('Task Timer')"
+  :icon="TaskTimerIcon"
+  :route="'/task-timer'"
+  :isCollapsed="isSidebarCollapsed"
+/>
+```
+
+## 5. Create API Endpoint
+
+```python
+# frappe-bench/apps/crm/crm/api/task_timer.py
+import frappe
+from frappe import _
+
+@frappe.whitelist()
+def start_timer(task):
+    """Start a new timer for the given task"""
+    timer = frappe.get_doc({
+        "doctype": "Task Timer",
+        "task": task,
+        "start_time": frappe.utils.now_datetime()
+    })
+    timer.insert()
+    return timer
+
+@frappe.whitelist()
+def stop_timer(timer_id):
+    """Stop an existing timer"""
+    timer = frappe.get_doc("Task Timer", timer_id)
+    timer.end_time = frappe.utils.now_datetime()
+    timer.save()
+    return timer
+```
+
+## 6. Create Frontend Store/Composable
+
+```js
+// frontend/src/composables/useTaskTimer.js
+import { ref } from 'vue'
+import { createResource } from 'frappe-ui'
+
+export function useTaskTimer() {
+  const currentTimer = ref(null)
+  const isRunning = ref(false)
+
+  const startTimer = createResource({
+    url: 'crm.api.task_timer.start_timer',
+    onSuccess: (data) => {
+      currentTimer.value = data
+      isRunning.value = true
+    }
+  })
+
+  const stopTimer = createResource({
+    url: 'crm.api.task_timer.stop_timer',
+    onSuccess: () => {
+      currentTimer.value = null
+      isRunning.value = false
+    }
+  })
+
+  return {
+    startTimer,
+    stopTimer,
+    isRunning,
+    currentTimer
+  }
+}
+```
+
+## 7. Testing
+
+### Frontend Test
+```js
+// frontend/tests/TaskTimer.test.js
+import { mount } from '@vue/test-utils'
+import TaskTimerPage from '@/pages/TaskTimerPage.vue'
+
+describe('TaskTimerPage', () => {
+  it('starts timer when start button clicked', async () => {
+    const wrapper = mount(TaskTimerPage)
+    await wrapper.find('.start-button').trigger('click')
+    expect(wrapper.vm.isRunning).toBe(true)
+  })
+})
+```
+
+### Backend Test
+```python
+# frappe-bench/apps/crm/crm/tests/test_task_timer.py
+import frappe
+import unittest
+
+class TestTaskTimer(unittest.TestCase):
+    def test_timer_creation(self):
+        timer = frappe.get_doc({
+            "doctype": "Task Timer",
+            "task": "TASK-001",
+            "start_time": frappe.utils.now_datetime()
+        }).insert()
+        
+        self.assertIsNotNone(timer.name)
+        self.assertEqual(timer.task, "TASK-001")
+```
+
+## 8. Deploy
+
+After testing, deploy your changes:
+
+```bash
+# Build frontend
+cd frontend && npm run build
+
+# Update database and restart
+bench --site newcrm.localhost migrate
+bench build
+bench restart
+```

@@ -1,0 +1,307 @@
+2025-05-03 00:57:39,547 ERROR frappe Failed to capture exception
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_customer_segments'}
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 608, in get_json
+    rv = self.json_module.loads(data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 557, in json
+    return self.get_json()
+           ^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 617, in get_json
+    rv = self.on_json_loading_failed(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 642, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2025-05-03 00:57:39,549 ERROR frappe Failed to capture exception
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sentiment_analysis'}
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 608, in get_json
+    rv = self.json_module.loads(data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 557, in json
+    return self.get_json()
+           ^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 617, in get_json
+    rv = self.on_json_loading_failed(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 642, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2025-05-03 00:57:39,550 ERROR frappe New Exception collected in error log
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sales_forecast'}
+2025-05-03 00:57:39,551 ERROR frappe New Exception collected in error log
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_customer_segments'}
+2025-05-03 00:57:39,552 ERROR frappe New Exception collected in error log
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sentiment_analysis'}
+2025-05-03 01:02:08,231 ERROR frappe Failed to capture exception
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sales_forecast'}
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 608, in get_json
+    rv = self.json_module.loads(data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 557, in json
+    return self.get_json()
+           ^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 617, in get_json
+    rv = self.on_json_loading_failed(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 642, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2025-05-03 01:02:08,231 ERROR frappe Failed to capture exception
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_customer_segments'}
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 608, in get_json
+    rv = self.json_module.loads(data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 557, in json
+    return self.get_json()
+           ^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 617, in get_json
+    rv = self.on_json_loading_failed(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 642, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2025-05-03 01:02:08,233 ERROR frappe Failed to capture exception
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sentiment_analysis'}
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 608, in get_json
+    rv = self.json_module.loads(data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 557, in json
+    return self.get_json()
+           ^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 617, in get_json
+    rv = self.on_json_loading_failed(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 642, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2025-05-03 01:02:08,233 ERROR frappe New Exception collected in error log
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sales_forecast'}
+2025-05-03 01:02:08,233 ERROR frappe New Exception collected in error log
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_customer_segments'}
+2025-05-03 01:02:08,233 ERROR frappe New Exception collected in error log
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sentiment_analysis'}
+2025-05-03 01:02:52,739 ERROR frappe Failed to capture exception
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_customer_segments'}
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 608, in get_json
+    rv = self.json_module.loads(data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 557, in json
+    return self.get_json()
+           ^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 617, in get_json
+    rv = self.on_json_loading_failed(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 642, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2025-05-03 01:02:52,739 ERROR frappe Failed to capture exception
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sales_forecast'}
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 608, in get_json
+    rv = self.json_module.loads(data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 557, in json
+    return self.get_json()
+           ^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 617, in get_json
+    rv = self.on_json_loading_failed(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 642, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2025-05-03 01:02:52,739 ERROR frappe Failed to capture exception
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sentiment_analysis'}
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 608, in get_json
+    rv = self.json_module.loads(data)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.10/Frameworks/Python.framework/Versions/3.12/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 557, in json
+    return self.get_json()
+           ^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 617, in get_json
+    rv = self.on_json_loading_failed(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/sanchay/Documents/projects/sinx/frappeCRM/frappe-bench/env/lib/python3.12/site-packages/werkzeug/wrappers/request.py", line 642, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2025-05-03 01:02:52,741 ERROR frappe New Exception collected in error log
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sales_forecast'}
+2025-05-03 01:02:52,741 ERROR frappe New Exception collected in error log
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_sentiment_analysis'}
+2025-05-03 01:02:52,741 ERROR frappe New Exception collected in error log
+Site: newcrm.localhost
+Form Dict: {'cmd': 'crm.api.dataviz.get_customer_segments'}

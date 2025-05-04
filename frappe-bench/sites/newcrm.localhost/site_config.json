@@ -1,0 +1,13 @@
+{
+ "allow_cors": "*",
+ "cors_origins": [
+  "http://localhost:8080",
+  "http://localhost:8081"
+ ],
+ "db_name": "_86bd34bab5049fb5",
+ "db_password": "hGjgcGAGi4phULFn",
+ "db_type": "mariadb",
+ "db_user": "_86bd34bab5049fb5",
+ "encryption_key": "nkJQmOoKdTjV9f5R4s6nx-30wIblEyyF4DOXTy7PXSc=",
+ "ignore_csrf": true
+}

@@ -1,0 +1,129 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Frappe CRM Development Guide
+
+## Project Structure
+
+The Frappe CRM project follows a standard Frappe framework structure with both frontend and backend components:
+
+### Frontend Structure
+- `frontend/src/`: Main Vue.js frontend code
+  - `components/`: Reusable Vue components
+    - `Activities/`: Activity-related components
+    - `Controls/`: Form control components
+    - `Icons/`: SVG icons and icon components
+    - `Kanban/`: Kanban view components
+    - `Layouts/`: Layout components including AppSidebar
+    - `ListViews/`: List view components
+    - `Mobile/`: Mobile-specific components
+    - `Modals/`: Modal dialog components
+    - `Settings/`: Settings-related components
+    - `Telephony/`: Call/telephony components
+  - `pages/`: Vue route pages
+  - `stores/`: Pinia/Vuex stores
+  - `utils/`: Utility functions
+  - `router.js`: Vue router configuration
+
+### Backend Structure
+- `frappe-bench/apps/crm/`: Main CRM backend code
+  - `crm/`: Core CRM module
+    - `api/`: API endpoints
+    - `fcrm/`: CRM-specific doctypes
+    - `integrations/`: Third-party integrations
+    - `public/`: Static assets
+    - `templates/`: Jinja2 templates
+    - `utils/`: Utility functions
+  - `frontend/`: Built frontend code
+
+## Adding New Features
+
+### 1. Frontend Components
+
+To add a new feature that requires UI components:
+
+1. Create a new page in `frontend/src/pages/` if it's a full page feature
+2. Add route in `frontend/src/router.js`:
+   ```js
+   {
+     path: '/your-feature',
+     name: 'YourFeature',
+     component: () => import('@/pages/YourFeaturePage.vue')
+   }
+   ```
+3. Create necessary components in `frontend/src/components/`
+4. Add to sidebar in `frontend/src/components/Layouts/AppSidebar.vue`
+
+### 2. Backend Components
+
+For features requiring backend functionality:
+
+1. Create DocType (if needed):
+   - Add in `frappe-bench/apps/crm/crm/fcrm/doctype/`
+   - Define fields, permissions, and controllers
+
+2. Create API endpoints:
+   - Add in `frappe-bench/apps/crm/crm/api/`
+   - Follow RESTful conventions
+   - Use Frappe's `@frappe.whitelist()`
+
+3. Add business logic:
+   - Core logic in DocType controllers
+   - Utility functions in `utils/`
+   - Integration code in `integrations/`
+
+### 3. Database Changes
+
+When your feature requires database changes:
+
+1. Create new DocType:
+   ```bash
+   bench make-doctype "Your Feature"
+   ```
+
+2. Add fields in DocType JSON:
+   - Field name
+   - Field type
+   - Label
+   - Required/Optional
+   - Permissions
+
+3. Migrate database:
+   ```bash
+   bench migrate
+   ```
+
+### 4. Adding Icons
+
+1. Add SVG icon in `frontend/src/components/Icons/`
+2. Create Vue component wrapping the SVG
+3. Import and use in your components
+
+### 5. Testing
+
+1. Frontend tests in `frontend/tests/`
+2. Backend tests in `frappe-bench/apps/crm/crm/tests/`
+3. Run tests:
+   ```bash
+   # Frontend
+   cd frontend && npm run test
+   
+   # Backend
+   bench --site newcrm.localhost run-tests
+   ```
+
+### 6. Deployment
+
+1. Build frontend:
+   ```bash
+   cd frontend && npm run build
+   ```
+
+2. Deploy changes:
+   ```bash
+   bench --site newcrm.localhost migrate
+   bench build
+   bench restart
+   ```
