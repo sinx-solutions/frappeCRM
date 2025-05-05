@@ -32,9 +32,17 @@ __pycache__/
 *.egg
 
 # Secrets and Environment Files
+# Environment Variables
 .env
 .env.*
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+.env.backup
 *.env
+
 env/
 venv/
 ENV/
@@ -76,3 +84,5 @@ temp/
 
 # Mac Packages - uncomment if you DON'T want to track it
 # *.pkg 
+
+README_API.md

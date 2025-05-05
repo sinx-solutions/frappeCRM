@@ -1,0 +1,26 @@
+[
+  {
+    "name": "CRM-LEAD-2025-00002",
+    "email": "thalnerkarsanchay17@gmail.com",
+    "first_name": "thalnerkar",
+    "last_name": "sanchay",
+    "organization": "",
+    "industry": "",
+    "job_title": null,
+    "source": null,
+    "status": "New",
+    "mobile_no": "+919136820958" 
+  },
+  {
+    "name": "CRM-LEAD-2025-00001",
+    "email": "sanchaythalnerkar@gmail.com",
+    "first_name": "sa",
+    "last_name": "thal",
+    "organization": "",
+    "industry": "",
+    "job_title": null,
+    "source": null,
+    "status": "New",
+    "mobile_no": "0987654321"
+  }
+] 

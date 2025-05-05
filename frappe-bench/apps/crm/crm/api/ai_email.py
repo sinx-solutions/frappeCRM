@@ -1206,10 +1206,11 @@ def send_ai_email(recipients, subject, content, doctype="CRM Lead", name=None, c
         
         # Create email template and wrap content in it
         html_template = get_email_template(subject)
-        rendered_html = html_template.replace("{ name }", recipient_name)
-        rendered_html = rendered_html.replace("{ sender_name }", sender_name)
-        rendered_html = rendered_html.replace("{ email_body_content }", content)
-        
+        # Use the correct placeholders defined in get_email_template
+        rendered_html = html_template.replace("__AI_EMAIL_BODY_CONTENT__", content)
+        rendered_html = rendered_html.replace("__SENDER_FULL_NAME__", sender_name)
+        # Note: The template doesn't have a placeholder for recipient_name like "{ name }" was attempting before.
+
         log("BACKEND: Email template applied to content", "info")
         
         # Convert recipients to comma-separated string for Frappe's sendmail

@@ -7,123 +7,198 @@ alwaysApply: true
 
 ## Project Structure
 
-The Frappe CRM project follows a standard Frappe framework structure with both frontend and backend components:
+The Frappe CRM project follows a standard Frappe framework structure but is managed as a **single Git repository** located at the project root (`frappeCRM`).
 
-### Frontend Structure
-- `frontend/src/`: Main Vue.js frontend code
-  - `components/`: Reusable Vue components
-    - `Activities/`: Activity-related components
-    - `Controls/`: Form control components
-    - `Icons/`: SVG icons and icon components
-    - `Kanban/`: Kanban view components
-    - `Layouts/`: Layout components including AppSidebar
-    - `ListViews/`: List view components
-    - `Mobile/`: Mobile-specific components
-    - `Modals/`: Modal dialog components
-    - `Settings/`: Settings-related components
-    - `Telephony/`: Call/telephony components
-  - `pages/`: Vue route pages
-  - `stores/`: Pinia/Vuex stores
-  - `utils/`: Utility functions
-  - `router.js`: Vue router configuration
+*   **Backend (`frappe-bench/apps/crm/`):** Contains the custom CRM Python code.
+    *   `crm/api/`: API endpoints (e.g., `ai_email.py`).
+    *   `crm/fcrm/`: Custom DocTypes for CRM.
+    *   `crm/public/`: Static assets built from the frontend.
+    *   `crm/...`: Other standard Frappe module directories (templates, utils, etc.).
+*   **Frontend (`frappe-bench/apps/crm/frontend/`):** Contains the custom CRM Vue.js frontend code.
+    *   `src/`: Main Vue.js source code.
+        *   `components/`: Reusable Vue components (e.g., `CommunicationArea.vue`, `Modals/BulkAIEmailModal.vue`).
+        *   `pages/`: Vue route pages (e.g., `Lead.vue`).
+        *   `stores/`: Pinia stores.
+        *   `utils/`: Utility functions (e.g., `translations.js`).
+        *   `router.js`: Vue router configuration.
+*   **Bench (`frappe-bench/`):** The main Frappe Bench directory containing apps, config, sites, etc. This directory is tracked by the main Git repository, but specific subdirectories (like `env`, `logs`, `sites/*/private`) are excluded via `.gitignore`.
+*   **Git (`.git/`):** Located at the project root (`frappeCRM/`). Nested `.git` folders within apps have been removed.
+*   **Git Ignore (`.gitignore`):** Located at the project root. Defines excluded files/directories (virtual environments, logs, secrets, node_modules, build artifacts, etc.).
 
-### Backend Structure
-- `frappe-bench/apps/crm/`: Main CRM backend code
-  - `crm/`: Core CRM module
-    - `api/`: API endpoints
-    - `fcrm/`: CRM-specific doctypes
-    - `integrations/`: Third-party integrations
-    - `public/`: Static assets
-    - `templates/`: Jinja2 templates
-    - `utils/`: Utility functions
-  - `frontend/`: Built frontend code
+### Key Directory Layout
 
-## Adding New Features
+This curated view highlights the most important directories and files for typical development tasks, omitting less frequently touched areas like tests, locales, and deep framework internals for brevity:
 
-### 1. Frontend Components
+```
+.
+├── .gitignore            # <-- Specifies files/folders ignored by Git (IMPORTANT!)
+├── frappe-bench
+│   ├── Procfile            # Defines processes for `bench start`
+│   ├── apps
+│   │   └── crm               # <-- Your custom CRM app
+│   │       ├── crm           # <-- Core backend module for CRM app
+│   │       │   ├── __init__.py
+│   │       │   ├── api       # <-- Backend Python API endpoints HERE
+│   │       │   │   ├── __init__.py
+│   │       │   │   ├── ai_email.py # <-- Example: AI Email logic
+│   │       │   │   └── ... (other API files)
+│   │       │   ├── fcrm      # <-- Custom DocTypes for CRM HERE
+│   │       │   │   ├── __init__.py
+│   │       │   │   ├── doctype
+│   │       │   │   │   ├── lead  # <-- Example: Lead DocType folder
+│   │       │   │   │   │   ├── lead.js
+│   │       │   │   │   │   ├── lead.json
+│   │       │   │   │   │   └── lead.py
+│   │       │   │   │   └── ... (other DocType folders)
+│   │       │   │   └── workspace # Dashboard configurations
+│   │       │   ├── hooks.py    # <-- Important Frappe hooks (connects backend/frontend events)
+│   │       │   ├── templates
+│   │       │   │   ├── __init__.py
+│   │       │   │   ├── emails
+│   │       │   │   │   └── ai_generated_email.html # <-- Example: Email template
+│   │       │   │   └── ...
+│   │       │   ├── utils
+│   │       │   │   └── __init__.py # Utility functions
+│   │       │   └── www         # Public web pages (if any, less common for SPA)
+│   │       │       └── crm.py  # Example controller for a www page
+│   │       ├── frontend      # <-- Source code for custom Vue.js frontend HERE
+│   │       │   ├── public
+│   │       │   │   └── favicon.png
+│   │       │   ├── src       # <-- Main frontend source files
+│   │       │   │   ├── App.vue # Main application component
+│   │       │   │   ├── main.js # Entry point for Vue app
+│   │       │   │   ├── router.js # <-- Vue Router configuration (defines pages)
+│   │       │   │   ├── index.css # Main CSS/Tailwind entry
+│   │       │   │   ├── components # <-- Reusable Vue components
+│   │       │   │   │   ├── CommunicationArea.vue # Example component on Lead page
+│   │       │   │   │   ├── EmailEditor.vue     # Example email composition component
+│   │       │   │   │   ├── ListBulkActions.vue # Example list view action
+│   │       │   │   │   ├── Modals
+│   │       │   │   │   │   └── BulkAIEmailModal.vue # <-- Example: Bulk AI Modal
+│   │       │   │   │   ├── Icons # SVG Icons
+│   │       │   │   │   └── ...
+│   │       │   │   ├── pages     # <-- Main view/page components
+│   │       │   │   │   ├── Lead.vue # <-- Example: Lead page view
+│   │       │   │   │   └── ...
+│   │       │   │   ├── composables # <-- Reusable logic/state (Vue 3 Composition API)
+│   │       │   │   │   └── usePolling.js # Example for status polling
+│   │       │   │   ├── stores      # <-- Pinia stores for state management (if used)
+│   │       │   │   ├── utils       # <-- Frontend utility functions
+│   │       │   │   │   └── translations.js
+│   │       │   │   └── socket.js   # WebSocket connection setup (if used)
+│   │       │   ├── index.html  # HTML entry point template
+│   │       │   ├── package.json # <-- Frontend dependencies (Yarn/NPM)
+│   │       │   ├── vite.config.js # <-- Frontend build configuration (Vite)
+│   │       │   └── tailwind.config.js # Tailwind CSS config
+│   │       ├── requirements.txt # <-- Backend Python dependencies (Pip)
+│   │       └── ... (other app config files like patches.txt, modules.txt)
+│   ├── config              # Bench configuration files (Redis, etc.)
+│   └── sites               # Site data, assets, configs
+│       ├── common_site_config.json # Config shared across sites
+│       └── newcrm.localhost # <-- Specific site data for development
+│           ├── public/files  # User uploaded files (media, attachments) - Ignored by Git
+│           └── site_config.json # <-- Site-specific config (DB creds, etc.) - Ignored by Git!
+└── ... (other root files like leads.xlsx)
+```
 
-To add a new feature that requires UI components:
+## Adding New Features (Example: AI Email Feature)
 
-1. Create a new page in `frontend/src/pages/` if it's a full page feature
-2. Add route in `frontend/src/router.js`:
-   ```js
-   {
-     path: '/your-feature',
-     name: 'YourFeature',
-     component: () => import('@/pages/YourFeaturePage.vue')
-   }
-   ```
-3. Create necessary components in `frontend/src/components/`
-4. Add to sidebar in `frontend/src/components/Layouts/AppSidebar.vue`
+Follow these general steps when adding new features. Refer to the implementation of the AI Email feature (`crm/api/ai_email.py`, `frontend/src/components/Modals/BulkAIEmailModal.vue`, etc.) as a concrete example.
 
-### 2. Backend Components
+### 1. Backend Components
 
-For features requiring backend functionality:
+*   **API Endpoints:**
+    *   Create necessary Python functions in `frappe-bench/apps/crm/crm/api/`. Define API endpoints using `@frappe.whitelist()`.
+    *   Handle request data, interact with DocTypes (`frappe.get_doc`, `frappe.get_list`), and return JSON responses.
+    *   For long-running tasks (like bulk AI generation), enqueue background jobs using `frappe.utils.background_jobs.enqueue`.
+    *   Implement helper functions for core logic (e.g., `generate_email_for_lead`, `construct_prompt`, `call_openrouter_api`).
+*   **DocTypes:** If the feature requires new data models, create them using `bench make-doctype "Your DocType"` and define fields in the corresponding JSON file in `crm/fcrm/doctype/your_doctype/`.
+*   **Business Logic:** Place core logic in API files, DocType controller classes (`your_doctype.py`), or utility modules.
+*   **Logging:** Use the custom `log` function defined in `crm/api/ai_email.py` for consistent logging to `frappe-bench/logs/ai_email.log` (ensure `init_environment` is called appropriately).
 
-1. Create DocType (if needed):
-   - Add in `frappe-bench/apps/crm/crm/fcrm/doctype/`
-   - Define fields, permissions, and controllers
+### 2. Frontend Components
 
-2. Create API endpoints:
-   - Add in `frappe-bench/apps/crm/crm/api/`
-   - Follow RESTful conventions
-   - Use Frappe's `@frappe.whitelist()`
-
-3. Add business logic:
-   - Core logic in DocType controllers
-   - Utility functions in `utils/`
-   - Integration code in `integrations/`
+*   **Pages/Views:** If adding a new primary view, create a `.vue` file in `frontend/src/pages/` and add a route in `frontend/src/router.js`.
+*   **Components:** Create reusable UI elements as `.vue` files in `frontend/src/components/` (e.g., Modals, Icons, specific UI parts like `EmailEditor.vue`).
+*   **API Interaction:** Use `call` or `createResource` from `frappe-ui` to interact with backend API endpoints.
+*   **State Management:** Use Pinia stores (`frontend/src/stores/`) for managing shared frontend state if needed.
+*   **Background Job Monitoring:** If interacting with background jobs, use polling (e.g., `setInterval` calling an API endpoint like `get_bulk_email_job_status`) to track progress.
 
 ### 3. Database Changes
 
-When your feature requires database changes:
+*   If you add or modify DocTypes, run `bench --site <your-site-name> migrate` locally to apply schema changes to your development database.
 
-1. Create new DocType:
-   ```bash
-   bench make-doctype "Your Feature"
-   ```
+### 4. Local Development Workflow
 
-2. Add fields in DocType JSON:
-   - Field name
-   - Field type
-   - Label
-   - Required/Optional
-   - Permissions
+1.  **Run Frappe:** Use `bench start` in your terminal (run from the `frappe-bench` directory) to start the development server, Redis, and workers.
+2.  **Run Frontend Dev Server (Optional):** If making frontend changes and wanting hot-reloading, run `cd frontend && yarn dev` in a *separate* terminal (run from the `frappe-bench/apps/crm/frontend` directory).
+3.  **Access:** Access the local site, typically at `http://<your-site-name>:8000` (e.g., `http://newcrm.localhost:8000`). The frontend dev server usually runs on port `8080` but proxies API calls to port `8000`.
+4.  **Testing:** Make changes, test thoroughly in your local browser.
 
-3. Migrate database:
-   ```bash
-   bench migrate
-   ```
+### 5. Version Control (Git)
 
-### 4. Adding Icons
+*   **Repository:** The entire `frappeCRM` project is tracked in a single Git repository.
+*   **Workflow:**
+    1.  After implementing and **thoroughly testing** a feature or fix locally, check the status: `git status`.
+    2.  Stage the relevant changes: `git add .` (or add specific files).
+    3.  Commit the changes with a clear, descriptive message: `git commit -m "feat: Describe the feature or fix"`.
+    4.  Push the changes to the central GitHub repository (`origin`): `git push origin <branch-name>` (e.g., `git push origin main`).
+*   **Goal:** Keep the GitHub repository (`sinx-solutions/frappeCRM`) up-to-date with the latest verified local changes.
 
-1. Add SVG icon in `frontend/src/components/Icons/`
-2. Create Vue component wrapping the SVG
-3. Import and use in your components
+### 6. Background Jobs & Workers (Important!)
 
-### 5. Testing
+*   **When to Use:** For tasks that take longer than a few seconds (e.g., processing many records, calling slow external APIs like AI) to avoid web request timeouts.
+*   **How:** Use `from frappe.utils.background_jobs import enqueue` and call `enqueue('path.to.your.function', arg1=value1, queue='long')`.
+*   **Job Function Context:** The function executed by the worker runs in a separate process. Be aware of:
+    *   **Logging:** Standard `frappe.log` may fail. Use the custom `log` function from `crm/api/ai_email.py` which writes to a file (`frappe-bench/logs/ai_email.log`). Ensure `init_environment()` is called if needed within the job function.
+    *   **Database Commits:** Changes made to the database within a job (like creating a record with `.insert()` or queuing an email with `frappe.sendmail`) might **not be saved** unless you explicitly commit the transaction. **Always call `frappe.db.commit()` after crucial database operations within your background job function.**
+    *   **Frontend Updates:** Direct WebSocket updates from background jobs were found to be unreliable in this project. The current pattern is for the frontend to poll a status API endpoint (`get_bulk_email_job_status`) periodically.
 
-1. Frontend tests in `frontend/tests/`
-2. Backend tests in `frappe-bench/apps/crm/crm/tests/`
-3. Run tests:
-   ```bash
-   # Frontend
-   cd frontend && npm run test
-   
-   # Backend
-   bench --site newcrm.localhost run-tests
-   ```
+### 7. Email Configuration & Sending
 
-### 6. Deployment
+*   **Mechanism:** The system uses Frappe's built-in email functionality. `frappe.sendmail` adds emails to the `Email Queue`. Separate Frappe workers process this queue to send emails via the configured account.
+*   **Setup:** A **Default Outgoing Email Account** *must* be configured in Frappe for emails to be sent (Setup > Email > Email Account). Ensure it's enabled and authentication details (e.g., GMail App Password if using GMail) are correct.
+*   **Debugging:** If emails aren't delivered:
+    1.  Check the `ai_email.log` for errors during generation or the `frappe.sendmail` call.
+    2.  Check the Frappe UI: Awesome Bar > "Email Queue". Look for entries with "Error" status.
+    3.  Check the sending email account itself (e.g., Gmail's sent folder or security alerts).
 
-1. Build frontend:
-   ```bash
-   cd frontend && npm run build
-   ```
+## AI Email Feature: Implementation Deep Dive
 
-2. Deploy changes:
-   ```bash
-   bench --site newcrm.localhost migrate
-   bench build
-   bench restart
-   ```
+This is the most complex custom feature. Understanding its implementation is key.
+
+**Core Files:**
+*   Backend Logic: `crm/api/ai_email.py`
+*   Frontend Bulk Modal: `frontend/src/components/Modals/BulkAIEmailModal.vue`
+*   Frontend Lead Page Integration: `frontend/src/components/CommunicationArea.vue`, `frontend/src/components/EmailEditor.vue`
+
+**Workflow Comparison: Single vs. Bulk Email**
+
+*   **Single Email (from Lead Page):**
+    1.  User interacts with `EmailEditor.vue` within `CommunicationArea.vue`.
+    2.  User might click "Generate AI" which calls `generate_email_content` API endpoint.
+    3.  User clicks "Send".
+    4.  The `sendMail` method in `CommunicationArea.vue` calls the `send_ai_email` backend API endpoint.
+    5.  The `send_ai_email` function (in `ai_email.py`) performs all actions within the **web request context**: creates the `Communication` record, calls `frappe.sendmail` to queue the email.
+    6.  Database commits for the Communication record and Email Queue entry are typically handled automatically by the Frappe framework at the end of the web request.
+    7.  Frontend refreshes the timeline relatively simply after the API call returns.
+
+*   **Bulk Email (from List View):**
+    1.  User selects leads, clicks "Generate AI Emails" (`ListBulkActions.vue`).
+    2.  `BulkAIEmailModal.vue` opens, user confirms.
+    3.  Modal calls `generate_bulk_emails` API endpoint.
+    4.  `generate_bulk_emails` (in `ai_email.py`) fetches the list of leads and **enqueues a background job** using `frappe.enqueue` pointing to the `process_bulk_emails` function. It immediately returns a `job_id` to the frontend.
+    5.  **Background Job (`process_bulk_emails`):** This runs separately via an RQ worker process.
+        *   It iterates through the list of leads.
+        *   For each lead, it calls `generate_email_for_lead`.
+        *   `generate_email_for_lead` fetches lead data, calls the AI API, renders the template, creates the `Communication` record, and calls `frappe.sendmail`.
+        *   **Crucially, `generate_email_for_lead` MUST explicitly call `frappe.db.commit()`** after `frappe.sendmail` (and potentially after `communication.insert`) because the background job context does *not* have automatic transaction commits like web requests.
+        *   The job updates its status/progress in Redis (accessible via `get_bulk_email_job_status` API).
+    6.  **Frontend (`BulkAIEmailModal.vue`):**
+        *   Receives the `job_id`.
+        *   Starts polling `get_bulk_email_job_status` API every few seconds using `setInterval`.
+        *   Updates the UI based on the status/progress received from the polling API.
+
+**Key Takeaway:** The main difference is the execution context. Bulk operations use background jobs, requiring explicit database commits (`frappe.db.commit()`) and a frontend polling mechanism for status updates.
+
+*This guide should be kept up-to-date with significant project changes.*
