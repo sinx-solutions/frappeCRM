@@ -311,45 +311,41 @@ function applyEmailTemplate(template) {
     selectedTemplateName.value = template.name;
     subject.value = template.subject || props.subject; // Use template subject as preview in subject field
     
-    // Create placeholder content
-    const placeholderContent = `<p><i><b>Template selected:</b> ${template.name}</i></p><p><i>Content will be rendered on send.</i></p>`;
-    content.value = placeholderContent; // Set content.value
+    // Get the actual template content to display in the editor
+    const templateContent = template.use_html ? template.response_html : template.response;
     
-    // Improved editor content setting with better error handling and logging
+    // Format the content with a note at the top that this is a template
+    const editorContent = `<p><i><b>Template:</b> ${template.name}</i></p><hr />${templateContent}`;
+    content.value = editorContent; 
+    
+    // Set the editor content with the actual template for preview
     if (textEditor.value && textEditor.value.editor) {
-      console.log('[EmailEditor] Setting editor content via textEditor.value.editor');
+      console.log('[EmailEditor] Setting editor content with actual template content');
       try {
-        // First method - use setText which is more reliable
-        textEditor.value.editor.commands.setContent(placeholderContent, true);
-        console.log('[EmailEditor] Successfully set editor content via commands.setContent');
+        textEditor.value.editor.commands.setContent(editorContent, true);
+        console.log('[EmailEditor] Successfully set editor content with template');
       } catch (error) {
-        console.error('[EmailEditor] Error setting content via commands.setContent:', error);
-        // Fallback: Try to update the editor content directly
+        console.error('[EmailEditor] Error setting template content:', error);
+        // Fallback method
         try {
-          textEditor.value.editor.view.dispatch(
-            textEditor.value.editor.view.state.tr.insertText(placeholderContent)
-          );
-          console.log('[EmailEditor] Set content via fallback method');
+          textEditor.value.editor.commands.clearContent();
+          textEditor.value.editor.commands.insertContent(editorContent);
+          console.log('[EmailEditor] Set template content via fallback method');
         } catch (fallbackError) {
-          console.error('[EmailEditor] Fallback method also failed:', fallbackError);
+          console.error('[EmailEditor] Fallback method for template content also failed:', fallbackError);
         }
       }
     } else {
-      console.error('[EmailEditor] Editor reference not available:', {
-        textEditorExists: !!textEditor.value,
-        editorExists: textEditor.value ? !!textEditor.value.editor : false
-      });
+      console.error('[EmailEditor] Editor reference not available for template content');
     }
     
     isAIGenerated.value = false; // Reset AI flag
-    console.log(`[EmailEditor] Stored selectedTemplateName: ${selectedTemplateName.value}. Subject preview set. Editor content set to placeholder.`);
+    console.log(`[EmailEditor] Stored selectedTemplateName: ${selectedTemplateName.value}. Template content displayed in editor.`);
   } else {
     console.error('[EmailEditor] applyEmailTemplate called with invalid template object:', template);
     selectedTemplateName.value = null;
   }
   showEmailTemplateSelectorModal.value = false;
-  // Do not capture telemetry here, capture on send maybe? Or keep? Decide later.
-  // capture('email_template_applied', { doctype: props.doctype });
 }
 
 function appendEmoji() {
