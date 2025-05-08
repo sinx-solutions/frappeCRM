@@ -273,6 +273,11 @@ const bccEmails = ref([])
 const ccInput = ref(null)
 const bccInput = ref(null)
 
+const showEmailTemplateSelectorModal = ref(false)
+const showAIEmailGeneratorModal = ref(false)
+
+const selectedTemplateName = ref(null)
+
 const editor = computed(() => {
   return textEditor.value.editor
 })
@@ -281,43 +286,70 @@ function removeAttachment(attachment) {
   attachments.value = attachments.value.filter((a) => a !== attachment)
 }
 
-const showEmailTemplateSelectorModal = ref(false)
-const showAIEmailGeneratorModal = ref(false)
-
 function applyAIGeneratedEmail(emailData) {
+  console.log("[EmailEditor] applyAIGeneratedEmail called", emailData);
   if (emailData.subject) {
     subject.value = emailData.subject
   }
-
   if (emailData.content) {
-    content.value = emailData.content
-    editor.value.commands.setContent(emailData.content)
-    
+    content.value = emailData.content // Update the editor content
+    if (editor.value && editor.value.commands) {
+       editor.value.commands.setContent(emailData.content, true);
+    } else {
+       console.error("Editor commands not available to set AI content");
+    }
     isAIGenerated.value = true
+    selectedTemplateName.value = null // Clear selected template if AI populates editor
+    console.log("[EmailEditor] AI content applied, selectedTemplateName cleared.");
   }
-  
   capture('ai_email_applied', { doctype: props.doctype })
 }
 
-async function applyEmailTemplate(template) {
-  let data = await call(
-    'frappe.email.doctype.email_template.email_template.get_email_template',
-    {
-      template_name: template.name,
-      doc: modelValue.value,
-    },
-  )
-
-  if (template.subject) {
-    subject.value = data.subject
+function applyEmailTemplate(template) {
+  console.log('[EmailEditor] applyEmailTemplate called with raw template:', JSON.parse(JSON.stringify(template)));
+  if (template && template.name) {
+    selectedTemplateName.value = template.name;
+    subject.value = template.subject || props.subject; // Use template subject as preview in subject field
+    
+    // Create placeholder content
+    const placeholderContent = `<p><i><b>Template selected:</b> ${template.name}</i></p><p><i>Content will be rendered on send.</i></p>`;
+    content.value = placeholderContent; // Set content.value
+    
+    // Improved editor content setting with better error handling and logging
+    if (textEditor.value && textEditor.value.editor) {
+      console.log('[EmailEditor] Setting editor content via textEditor.value.editor');
+      try {
+        // First method - use setText which is more reliable
+        textEditor.value.editor.commands.setContent(placeholderContent, true);
+        console.log('[EmailEditor] Successfully set editor content via commands.setContent');
+      } catch (error) {
+        console.error('[EmailEditor] Error setting content via commands.setContent:', error);
+        // Fallback: Try to update the editor content directly
+        try {
+          textEditor.value.editor.view.dispatch(
+            textEditor.value.editor.view.state.tr.insertText(placeholderContent)
+          );
+          console.log('[EmailEditor] Set content via fallback method');
+        } catch (fallbackError) {
+          console.error('[EmailEditor] Fallback method also failed:', fallbackError);
+        }
+      }
+    } else {
+      console.error('[EmailEditor] Editor reference not available:', {
+        textEditorExists: !!textEditor.value,
+        editorExists: textEditor.value ? !!textEditor.value.editor : false
+      });
+    }
+    
+    isAIGenerated.value = false; // Reset AI flag
+    console.log(`[EmailEditor] Stored selectedTemplateName: ${selectedTemplateName.value}. Subject preview set. Editor content set to placeholder.`);
+  } else {
+    console.error('[EmailEditor] applyEmailTemplate called with invalid template object:', template);
+    selectedTemplateName.value = null;
   }
-
-  if (template.response) {
-    content.value = data.message
-    editor.value.commands.setContent(data.message)
-  }
-  showEmailTemplateSelectorModal.value = false
-  capture('email_template_applied', { doctype: props.doctype })
+  showEmailTemplateSelectorModal.value = false;
+  // Do not capture telemetry here, capture on send maybe? Or keep? Decide later.
+  // capture('email_template_applied', { doctype: props.doctype });
 }
 
 function appendEmoji() {
@@ -344,12 +376,14 @@ onMounted(() => {
 defineExpose({
   editor,
   subject,
+  content,
   cc,
   bcc,
   toEmails,
   ccEmails,
   bccEmails,
-  isAIGenerated
+  isAIGenerated,
+  selectedTemplateName
 })
 
 const textEditorMenuButtons = [
